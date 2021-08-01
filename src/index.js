@@ -2,16 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Main from './main';
+import axios from 'axios';
+
+function HandleView(){
+
+const loginScs=(cb)=>{if(cb[0]=='done'){
+  axios({
+    method: 'post',
+    url: 'https://chat-it-backend.herokuapp.com/api/user/log',
+    data: {userEmail:cb[1]},
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'Token',
+      "Access-Control-Allow-Origin": "*",
+  }
+  }).then(res=>console.log(res));
+  
+}setView(<Main userName={cb[2]}/>)};
+
+const[view,setView]=React.useState(<App cb={loginScs}/>);
+
+return(
+  view
+)
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <HandleView/>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
