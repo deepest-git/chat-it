@@ -3,25 +3,27 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import Main from './main';
-import axios from 'axios';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+const io = require('socket.io-client');
+const socket = io('http://localhost:8082/');
 
 function HandleView(){
+var usrName='';
 
-const loginScs=(cb)=>{if(cb[0]=='done'){
-  axios({
-    method: 'post',
-    url: 'https://chat-it-backend.herokuapp.com/api/user/log',
-    data: {userEmail:cb[1]},
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'Token',
-      "Access-Control-Allow-Origin": "*",
+const loginScs=(cb)=>{
+  if(cb[0]=='done'){
+    usrName=cb[2];
+    socket.emit('log',usrName);
+    setView(<Main userName={usrName}/>)
   }
-  }).then(res=>console.log(res));
   
-}setView(<Main userName={cb[2]}/>)};
+  socket.on('userLog',(data)=>{setView(<Main userName={cb[2]} userlog={data}/>)});
+};
 
 const[view,setView]=React.useState(<App cb={loginScs}/>);
+
+
 
 return(
   view

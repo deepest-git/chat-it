@@ -11,7 +11,6 @@ class App extends React.Component{
     if(event.target.placeholder=='Email')this.setState({userEmail:(event.target.value),pass:(this.state.pass)});
     else if(event.target.placeholder=='Password'){this.setState({userEmail:(this.state.userEmail),pass:(event.target.value)})}
     else if(event.target.placeholder=='Username'){this.setState({userName:event.target.value})}
-    console.log(this.state.userEmail+"-"+this.state.pass+"-"+this.state.userName);
   }
    
   passV=<React.Fragment><input type='text' placeholder='Password' onChange={this.handleValue}></input></React.Fragment>
@@ -21,7 +20,7 @@ class App extends React.Component{
     </React.Fragment>
 
   getReqData=()=>{
-    if(this.state.bVal=='Create & Login')return({userEmail:this.state.userEmail,pass:this.state.pass,userName:this.state.userName,logged:'online'});
+    if(this.state.bVal=='Create & Login')return({userEmail:this.state.userEmail,pass:this.state.pass,userName:this.state.userName});
     else if(this.state.userEmail!=='' && this.state.pass!=='')return({do:'login',userEmail:this.state.userEmail,pass:this.state.pass});
     else return({userEmail:this.state.userEmail,pass:this.state.pass});
   }
@@ -30,7 +29,7 @@ class App extends React.Component{
 
     if(this.state.bVal=='Login') axios({
       method: 'post',
-      url: 'https://chat-it-backend.herokuapp.com/api/user/check',
+      url: 'http://localhost:8082/api/user/check',
       data: this.getReqData(),
       headers: {
         'Content-Type': 'application/json',
@@ -39,16 +38,15 @@ class App extends React.Component{
     }
     }).then(res=>{
       console.log(res);
-      if(res.data=='valid')this.setState({userEmail:this.state.userEmail,pass:this.state.pass,passView:this.passV});
-      else if(res.data=='invalid')this.setState({userEmail:this.state.userEmail,pass:this.state.pass,passView:this.regV,bVal:'Create & Login'});
-      
-      else if(res.data=='success')this.props.cb(['done',this.state.userEmail,this.state.userName]);
+      if(res.data.status=='valid')this.setState({userEmail:this.state.userEmail,pass:this.state.pass,passView:this.passV});
+      else if(res.data.status=='invalid')this.setState({userEmail:this.state.userEmail,pass:this.state.pass,passView:this.regV,bVal:'Create & Login'});
+      else if(res.data.status=='success')this.props.cb(['done',this.state.userEmail,res.data.userName]);
       else this.setState({userEmail:this.state.userEmail,pass:this.state.pass,passView:<p>Invalid Password</p>});
     });
 
     else axios({
       method: 'post',
-      url: 'https://chat-it-backend.herokuapp.com/api/user/',
+      url: 'http://localhost:8082/api/user/',
       data: this.getReqData(),
       headers: {
         'Content-Type': 'application/json',
@@ -57,9 +55,9 @@ class App extends React.Component{
     }
     }).then(res=>{
       console.log(res);
-      if(res.data=='valid')this.setState({userEmail:this.state.userEmail,pass:this.state.pass,passView:this.passV});
-      else if(res.data=='invalid')this.setState({userEmail:this.state.userEmail,pass:this.state.pass,passView:this.regV,bVal:'Create & Login'});
-      else if(res.data=='added')this.props.cb(['done',this.state.userEmail,this.state.userName]);
+      if(res.data.status=='valid')this.setState({userEmail:this.state.userEmail,pass:this.state.pass,passView:this.passV});
+      else if(res.data.status=='invalid')this.setState({userEmail:this.state.userEmail,pass:this.state.pass,passView:this.regV,bVal:'Create & Login'});
+      else if(res.data.status=='added')this.props.cb(['done',this.state.userEmail,res.data.userName]);
       else this.setState({userEmail:this.state.userEmail,pass:this.state.pass,passView:<p>Invalid Password</p>});
     });
   }
