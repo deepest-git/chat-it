@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Chat from './chat';
 const io = require('socket.io-client');
-const socket = io('http://localhost:8082/');
+const socket = io('https://chat-it-backend.herokuapp.com/');
 
 
 class main extends React.Component{
@@ -13,9 +13,9 @@ class main extends React.Component{
 
 
     showChats=()=>{
-        console.log(this.props.userName);
+        //console.log(this.props.userName);
         socket.emit('rooms',{to:this.props.userName},(data)=>{
-            console.log(data);
+            //console.log(data);
         });
     }
 
@@ -24,7 +24,7 @@ class main extends React.Component{
     }
 
     getUserList=()=>{
-        axios.get('http://localhost:8082/api/user')
+        axios.get('https://chat-it-backend.herokuapp.com/api/user')
         .then(res=>{
             let list=[];
             if(this.props.userlog!=undefined){
@@ -56,7 +56,7 @@ class main extends React.Component{
 
        
     gotoChat=(event)=>{
-        console.log(this.props);
+        //console.log(this.props);
         this.setState({lview:[this.state.Hview,this.state.view],view:<Chat sender={event.target.firstChild.data} userName={this.props.userName} userlog={this.props.userlog} cb={this.handleBack}/>});
     }
 

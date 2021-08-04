@@ -29,7 +29,7 @@ class App extends React.Component{
 
     if(this.state.bVal=='Login') axios({
       method: 'post',
-      url: 'http://localhost:8082/api/user/check',
+      url: 'https://chat-it-backend.herokuapp.com/api/user/check',
       data: this.getReqData(),
       headers: {
         'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ class App extends React.Component{
 
     else axios({
       method: 'post',
-      url: 'http://localhost:8082/api/user/',
+      url: 'https://chat-it-backend.herokuapp.com/api/user/',
       data: this.getReqData(),
       headers: {
         'Content-Type': 'application/json',

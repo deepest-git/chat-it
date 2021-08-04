@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { act } from 'react-dom/test-utils';
 const io = require('socket.io-client');
-const socket = io('http://localhost:8082/');
+const socket = io('https://chat-it-backend.herokuapp.com/');
 
 
 const Chat=(props)=>{    
@@ -11,7 +11,7 @@ const Chat=(props)=>{
     
     socket.on('msg',(data)=>{
             let item;
-            console.log(data);
+            //console.log(data);
             if(data.frm==props.sender && data.to==props.userName || data.frm==props.userName && data.to==props.sender ){
                 item=<li>{data.frm}:{data.msg}</li>
                 msgList.push(item);
@@ -60,7 +60,7 @@ const Chat=(props)=>{
 
     const sendMsg=()=>{
         socket.emit('msg',{frm:props.userName,to:props.sender,msg:msgIn},(data)=>{
-            console.log(data);
+            //console.log(data);
         });
     }
 

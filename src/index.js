@@ -6,7 +6,7 @@ import Main from './main';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const io = require('socket.io-client');
-const socket = io('http://localhost:8082/');
+const socket = io('https://chat-it-backend.herokuapp.com/');
 
 function HandleView(){
 var usrName='';
