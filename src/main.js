@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Chat from './chat';
 const io = require('socket.io-client');
-const socket = io('https://chat-it-backend.herokuapp.com/');
+const socket = io('https://chat-it-backend.herokuapp.com/', {  withCredentials: true});
 
 
 class main extends React.Component{
