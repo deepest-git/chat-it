@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { act } from 'react-dom/test-utils';
 const io = require('socket.io-client');
-const socket = io('https://chat-it-backend.herokuapp.com/', {  withCredentials: true});
+const socket = io('https://chat-it-backend.herokuapp.com/');
 
 
 const Chat=(props)=>{    

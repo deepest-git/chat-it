@@ -6,7 +6,7 @@ import Main from './main';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const io = require('socket.io-client');
-const socket = io('https://chat-it-backend.herokuapp.com/', {  withCredentials: true});
+const socket = io('https://chat-it-backend.herokuapp.com/');
 
 function HandleView(){
 var usrName='';
@@ -22,8 +22,6 @@ const loginScs=(cb)=>{
 };
 
 const[view,setView]=React.useState(<App cb={loginScs}/>);
-
-
 
 return(
   view
